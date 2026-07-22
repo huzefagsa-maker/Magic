@@ -1,0 +1,121 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-maroon: var(--maroon);
+  --color-gold: var(--gold);
+  --color-ink: var(--ink);
+  --color-parchment: var(--parchment);
+  --color-forest: var(--forest);
+
+  --font-display: "Cinzel", "Times New Roman", serif;
+  --font-body: "EB Garamond", Georgia, serif;
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --maroon: #7a1f2b;
+  --gold: #c9a85c;
+  --ink: #0d0d14;
+  --parchment: #f0e6d2;
+  --forest: #1b4332;
+
+  --background: var(--ink);
+  --foreground: var(--parchment);
+  --card: #14141c;
+  --card-foreground: var(--parchment);
+  --popover: #14141c;
+  --popover-foreground: var(--parchment);
+  --primary: var(--gold);
+  --primary-foreground: var(--ink);
+  --secondary: #1a1a24;
+  --secondary-foreground: var(--parchment);
+  --muted: #1a1a24;
+  --muted-foreground: #9a8f76;
+  --accent: var(--maroon);
+  --accent-foreground: var(--parchment);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: var(--parchment);
+  --border: rgba(201, 168, 92, 0.2);
+  --input: rgba(201, 168, 92, 0.25);
+  --ring: var(--gold);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-parchment);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+}
+
+@utility text-glow-gold {
+  text-shadow: 0 0 20px rgba(201, 168, 92, 0.5), 0 0 40px rgba(201, 168, 92, 0.25);
+}
+
+@utility parchment-bg {
+  background-color: var(--parchment);
+  background-image:
+    radial-gradient(at 20% 30%, rgba(122, 31, 43, 0.08) 0, transparent 50%),
+    radial-gradient(at 80% 70%, rgba(122, 31, 43, 0.1) 0, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(13, 13, 20, 0.08) 0, transparent 60%);
+  color: #2a1810;
+}
+
+@utility brick-wall {
+  background-color: #2a1a1a;
+  background-image:
+    linear-gradient(335deg, #3d2020 23px, transparent 23px),
+    linear-gradient(155deg, #3d2020 23px, transparent 23px),
+    linear-gradient(335deg, #3d2020 23px, transparent 23px),
+    linear-gradient(155deg, #3d2020 23px, transparent 23px);
+  background-size: 58px 58px;
+  background-position:
+    0px 0,
+    0px 0,
+    29px 29px,
+    29px 29px;
+}
