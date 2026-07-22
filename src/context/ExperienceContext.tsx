@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -110,19 +111,22 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const value = useMemo(
+    () => ({
+      hasEntered,
+      enteredAt,
+      enter,
+      registerAudio,
+      bgmVolume: currentVolumeRef.current,
+      setBgmVolume,
+      duckBgm,
+      restoreBgm,
+    }),
+    [hasEntered, enteredAt, enter, registerAudio, setBgmVolume, duckBgm, restoreBgm],
+  );
+
   return (
-    <ExperienceContext.Provider
-      value={{
-        hasEntered,
-        enteredAt,
-        enter,
-        registerAudio,
-        bgmVolume: currentVolumeRef.current,
-        setBgmVolume,
-        duckBgm,
-        restoreBgm,
-      }}
-    >
+    <ExperienceContext.Provider value={value}>
       {children}
     </ExperienceContext.Provider>
   );

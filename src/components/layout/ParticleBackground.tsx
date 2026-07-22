@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useMemo } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 
 interface Particle {
   id: number;
@@ -11,7 +11,23 @@ interface Particle {
   color: string;
 }
 
-export function ParticleBackground({ variant = "ember" }: { variant?: "ember" | "dust" }) {
+export const ParticleBackground = memo(function ParticleBackground({
+  variant = "ember",
+}: {
+  variant?: "ember" | "dust";
+}) {
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsPaused(document.hidden);
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange, { passive: true });
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   const particles = useMemo<Particle[]>(() => {
     const count = 45;
     return Array.from({ length: count }, (_, i) => ({
@@ -30,6 +46,8 @@ export function ParticleBackground({ variant = "ember" }: { variant?: "ember" | 
     }));
   }, [variant]);
 
+  if (isPaused) return null;
+
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {particles.map((p) => (
@@ -42,6 +60,7 @@ export function ParticleBackground({ variant = "ember" }: { variant?: "ember" | 
             height: p.size,
             backgroundColor: p.color,
             boxShadow: variant === "ember" ? `0 0 ${p.size * 3}px ${p.color}` : undefined,
+            willChange: "transform, opacity",
           }}
           initial={{ y: "110vh", opacity: 0 }}
           animate={{
@@ -59,4 +78,4 @@ export function ParticleBackground({ variant = "ember" }: { variant?: "ember" | 
       ))}
     </div>
   );
-}
+});

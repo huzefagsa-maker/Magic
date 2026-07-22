@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 
 const LABELS = [
   "↓ Continue the Journey",
@@ -15,13 +15,14 @@ type ScrollIndicatorProps = {
   label?: string;
 };
 
-export function ScrollIndicator({ watchKey, label: labelOverride }: ScrollIndicatorProps) {
+export const ScrollIndicator = memo(function ScrollIndicator({ watchKey, label: labelOverride }: ScrollIndicatorProps) {
   const [visible, setVisible] = useState(false);
   const watchIndex = typeof watchKey === "number" ? watchKey : 0;
   const label = labelOverride ?? LABELS[watchIndex % LABELS.length]!;
 
   useEffect(() => {
     let userHasScrolled = false;
+    let rafId: number | null = null;
 
     const check = () => {
       const scrolled = window.scrollY > 20;
@@ -43,17 +44,26 @@ export function ScrollIndicator({ watchKey, label: labelOverride }: ScrollIndica
       setVisible(hasBelow);
     };
 
+    const throttledCheck = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        check();
+        rafId = null;
+      });
+    };
+
     check();
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("touchmove", check, { passive: true });
-    window.addEventListener("resize", check);
+    window.addEventListener("scroll", throttledCheck, { passive: true });
+    window.addEventListener("touchmove", throttledCheck, { passive: true });
+    window.addEventListener("resize", throttledCheck, { passive: true });
     const t = window.setTimeout(check, 300);
 
     return () => {
       window.clearTimeout(t);
-      window.removeEventListener("scroll", check);
-      window.removeEventListener("touchmove", check);
-      window.removeEventListener("resize", check);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", throttledCheck);
+      window.removeEventListener("touchmove", throttledCheck);
+      window.removeEventListener("resize", throttledCheck);
     };
   }, [watchKey]);
 
@@ -78,4 +88,4 @@ export function ScrollIndicator({ watchKey, label: labelOverride }: ScrollIndica
       )}
     </AnimatePresence>
   );
-}
+});

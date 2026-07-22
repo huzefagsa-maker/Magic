@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { ScrollIndicator } from "@/components/layout/ScrollIndicator";
-import { EnvelopeReveal } from "@/components/landing/EnvelopeReveal";
 import { ContinueButton } from "@/components/ui/ContinueButton";
 import { useExperience } from "@/context/ExperienceContext";
 import { siteContent } from "@/content/siteContent";
+
+const EnvelopeReveal = lazy(() =>
+  import("@/components/landing/EnvelopeReveal").then((m) => ({ default: m.EnvelopeReveal }))
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,7 +45,9 @@ function Landing() {
       <AnimatePresence mode="wait">
         {!opened ? (
           showEnvelope ? (
-            <EnvelopeReveal key="envelope" onOpen={() => setOpened(true)} />
+            <Suspense fallback={null}>
+              <EnvelopeReveal key="envelope" onOpen={() => setOpened(true)} />
+            </Suspense>
           ) : null
         ) : (
           <motion.div

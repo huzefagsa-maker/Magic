@@ -97,12 +97,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "The Letter — A Birthday for Umema" },
       { name: "twitter:description", content: "You've been accepted. Open the envelope." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e853b344-2ebd-4b79-a2c0-aaa0c4c50406/id-preview-b7e233db--f23f6cc6-879a-43d2-bd82-483b0184a4bc.lovable.app-1784566960136.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e853b344-2ebd-4b79-a2c0-aaa0c4c50406/id-preview-b7e233db--f23f6cc6-879a-43d2-bd82-483b0184a4bc.lovable.app-1784566960136.png" },
+      { property: "og:image", content: "/U.png" },
+      { name: "twitter:image", content: "/U.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { rel: "icon", href: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
